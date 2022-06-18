@@ -20,6 +20,7 @@ using (var context = new testContext())
     {
         Console.Write("Enter Euro4x4 part number: ");
         string reference = Console.ReadLine();
+        Console.Clear();
         Console.WriteLine();
 
 
@@ -27,8 +28,8 @@ using (var context = new testContext())
 
         if (ReferenceStocked(reference))
         {
-            Console.ForegroundColor = ConsoleColor.DarkBlue;
-            Console.BackgroundColor = ConsoleColor.White;
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.BackgroundColor = ConsoleColor.Black;
             Console.WriteLine("Euro4x4 part number stocked");
             Console.ForegroundColor = ConsoleColor.White;
             Console.BackgroundColor = ConsoleColor.DarkBlue;
@@ -36,8 +37,8 @@ using (var context = new testContext())
         }
         else
         {
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.BackgroundColor = ConsoleColor.White;
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.BackgroundColor = ConsoleColor.Green;
             Console.WriteLine("New Euro4x4 part number to stocked yours stores");
             Console.ForegroundColor = ConsoleColor.White;
             Console.BackgroundColor = ConsoleColor.DarkBlue;
@@ -45,7 +46,10 @@ using (var context = new testContext())
         }
         Console.ForegroundColor = ConsoleColor.White;
         Console.BackgroundColor = ConsoleColor.DarkBlue;
+
      if(reference == "exit") exit = true;
+
+
     } while (!exit);
 
 
@@ -75,13 +79,8 @@ using (var context = new testContext())
     }
     bool ReferenceStocked(string ref2)
     {
-        var countCrossref = (from o in context.StoreStockeds
-                             where o.RefEuro == ref2
-                             select o).Count();
-
-
-        if (countCrossref > 0)  return true;
-        else return false;
+        var countCrossref = (from o in context.StoreStockeds where o.RefEuro == ref2 select o).Count();
+        if (countCrossref > 0)  return true; else return false;
         
 
     }
@@ -98,10 +97,10 @@ using (var context = new testContext())
             Console.WriteLine();
             foreach (var x in context.StoreStockeds.Where(u => u.RefEuro == ref2))
              {
-                 // Console.WriteLine(x.Reference);
+                
                  Console.WriteLine(x.StoreName + " - " + "{0:N2}", x.Storeprice +" - "+ x.DateStoked + " - " + x.DateUptade);
 
-                 //searchEan(x.Reference);
+               
 
              }
 
@@ -166,7 +165,7 @@ using (var context = new testContext())
                     foreach (var x in list_sorted.ToList())
                     {
 
-                        Console.WriteLine(x.name + "-" + x.country + "-" + x.price);
+                        Console.WriteLine("New store  "+x.name + "-" + x.country + "-" + x.price);
                         saveData(x,reference.refe);   
                     }
 
@@ -198,12 +197,6 @@ using (var context = new testContext())
 
 
     }
-
-
-
-    
-
-
 
     async Task<List<Store>>searchStores(string ean, float price)
     {
@@ -290,9 +283,6 @@ using (var context = new testContext())
         return stocked;
 
     }
-
-
-
     void saveData(Store storeSave, String reference)
 {
         String price_solved = storeSave.price.Replace('.', ',');
@@ -310,94 +300,12 @@ using (var context = new testContext())
     };
     context.StoreStockeds.Add(t);
     context.SaveChanges();
-        Console.WriteLine("Data store stocked .");
+        Console.WriteLine("Data store stocked sqlserver.");
 
 
     }
 
 }
-
-
-
-
-/*
-
-    foreach (var personas in context.Personas.Take(1)) //Tolist
-    {
-     Console.WriteLine(personas.Name+" "+personas.Telf);
-    //  Console.WriteLine(personas.Telf);
-    }
-  var count = context.Personas.Count();
-    Console.WriteLine(count);
-    var person = (from e in context.Personas
-                  join p in context.Pedidos
-                  on e.Id equals p.IdPersona
-                 
-                  where e.Id == 1
-                  select new
-                  {
-                      ID = e.Id,
-                      FirstName = e.Name,
-                      Telf = e.Telf,
-                      Pedido_id = p.Id,
-                      Total = p.Total
-                  }).ToList();
-    foreach (var p in person)
-    {
-        Console.WriteLine("{0} {1} {2} {3} {4}", p.ID, p.FirstName, p.Telf, p.Pedido_id, p.Total);
-    }
-  
-    //db.Products.OrderByDescending(p => p.ID).FirstOrDefault().ID;
-    var person2 = context.Personas.OrderBy(p => p.Id).Last();
-    Console.WriteLine("Enter name: ");
-    var nombre = Console.ReadLine();
-    Console.WriteLine("Enter nº telf: ");
-    var telf = Console.ReadLine();
-    var t = new Persona
-    {
-        Id = person2.Id + 1,
-        Name = nombre, 
-        Telf = telf
-    };
-    context.Personas.Add(t);
-    context.SaveChanges();
-    Console.WriteLine("Datos guardados");
-    var  per = context.Personas.Find(2);
-    Console.WriteLine(per.Name);
-    var per2 = context.Personas.FirstOrDefault(u => u.Name == "Monika");
-    Console.WriteLine(per2.Telf);
-    foreach (var personas in context.Personas.ToList())
-    {
-        Console.WriteLine(personas.Name + " - " + personas.Telf);
-        //  Console.WriteLine(personas.Telf);
-    }
-   
-    var store = new Store();
-    store.name = "AUTODOC FR";
-    store.price = "110€";
-    Console.WriteLine(store.name+ " -" + store.price);
-
- 
- void searchEan2(string oem)
-    {
-        /*   var person = (from e in context.Personas
-                         join p in context.Pedidos
-                         on e.Id equals p.IdPersona
-                         where e.Id == 1
-                         select new
-                         {
-                             ID = e.Id,
-                             FirstName = e.Name,
-                             Telf = e.Telf,
-                             Pedido_id = p.Id,
-                             Total = p.Total
-                         }).ToList();
-           foreach (var p in person)
-           {
-               Console.WriteLine("{0} {1} {2} {3} {4}", p.ID, p.FirstName, p.Telf, p.Pedido_id, p.Total);
-
-               // await searchStores(p.Ean)
-           }*/
 
 
 
