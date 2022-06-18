@@ -9,27 +9,46 @@ using MySql.Data.MySqlClient;
 #pragma warning disable CS8600
 using (var context = new testContext())
 {
-   
+    Console.ForegroundColor = ConsoleColor.White;
+    Console.BackgroundColor = ConsoleColor.DarkBlue;
+    Console.Clear();
+    Console.WriteLine();
     Console.WriteLine("Comparative Price Version 2022");
-    Console.WriteLine("Enter reerence Euro4x4: ");
-
-
-    string reference = Console.ReadLine();
-
-
-     Searchreference(reference);
-    
-    if (ReferenceStocked(reference))
+    Console.WriteLine();
+    bool exit = false;
+    do
     {
-        Console.WriteLine("Reference stores stocked");
-        PrintStores(reference);
-    }
-    else
-    {
-        Console.WriteLine("New reference to stocked stores");
-        SearchEan(reference);
-    }
-    
+        Console.Write("Enter Euro4x4 part number: ");
+        string reference = Console.ReadLine();
+        Console.WriteLine();
+
+
+        Searchreference(reference);
+
+        if (ReferenceStocked(reference))
+        {
+            Console.ForegroundColor = ConsoleColor.DarkBlue;
+            Console.BackgroundColor = ConsoleColor.White;
+            Console.WriteLine("Euro4x4 part number stocked");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.BackgroundColor = ConsoleColor.DarkBlue;
+            PrintStores(reference);
+        }
+        else
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.BackgroundColor = ConsoleColor.White;
+            Console.WriteLine("New Euro4x4 part number to stocked yours stores");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.BackgroundColor = ConsoleColor.DarkBlue;
+            SearchEan(reference);
+        }
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.BackgroundColor = ConsoleColor.DarkBlue;
+     if(reference == "exit") exit = true;
+    } while (!exit);
+
+
 
     void Searchreference(string reference)
     {
@@ -42,9 +61,8 @@ using (var context = new testContext())
         {
 
             var referenceEncontrada = context.Europroducts.FirstOrDefault(u => u.Reference == reference);
-            Console.WriteLine(referenceEncontrada.Reference);
-            Console.WriteLine(referenceEncontrada.LibelleProduit);
-            Console.WriteLine(referenceEncontrada.PrixEuroHt);
+            Console.WriteLine(referenceEncontrada.Reference+ "-"+ referenceEncontrada.LibelleProduit+"-"+ referenceEncontrada.PrixEuroHt);
+            Console.WriteLine();
 
 
         }
@@ -52,6 +70,7 @@ using (var context = new testContext())
         {
 
             Console.WriteLine("Ref not found VIA SQLSERVER EF");
+            Console.WriteLine();
         }
     }
     bool ReferenceStocked(string ref2)
@@ -61,14 +80,9 @@ using (var context = new testContext())
                              select o).Count();
 
 
-        if (countCrossref > 0)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        if (countCrossref > 0)  return true;
+        else return false;
+        
 
     }
 
@@ -81,10 +95,11 @@ using (var context = new testContext())
 
         if (countCrossref > 0)
         {
-             foreach (var x in context.StoreStockeds.Where(u => u.RefEuro == ref2))
+            Console.WriteLine();
+            foreach (var x in context.StoreStockeds.Where(u => u.RefEuro == ref2))
              {
                  // Console.WriteLine(x.Reference);
-                 Console.WriteLine(x.StoreName);
+                 Console.WriteLine(x.StoreName + " - " + "{0:N2}", x.Storeprice +" - "+ x.DateStoked + " - " + x.DateUptade);
 
                  //searchEan(x.Reference);
 
@@ -295,10 +310,10 @@ using (var context = new testContext())
     };
     context.StoreStockeds.Add(t);
     context.SaveChanges();
-        
+        Console.WriteLine("Data store stocked .");
 
-        
-}
+
+    }
 
 }
 
