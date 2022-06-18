@@ -15,6 +15,8 @@ using (var context = new testContext())
     Console.WriteLine();
     Console.WriteLine("Comparative Price Version 2022");
     Console.WriteLine();
+    Console.WriteLine("Options :"+"\n"+ "Press 'exit' to Quit and 'list' to print Euro4x4 parts stocked");
+    Console.WriteLine();
     bool exit = false;
     do
     {
@@ -23,6 +25,10 @@ using (var context = new testContext())
         Console.Clear();
         Console.WriteLine();
 
+        if (reference == "list") {
+            Console.WriteLine("List Euro4x4 part number stocked: ");
+            PrintRefStocked();
+        }
 
         Searchreference(reference);
 
@@ -84,7 +90,17 @@ using (var context = new testContext())
         
 
     }
+    void PrintRefStocked()
+    {
 
+       var result = context.StoreStockeds.Select(m => m.RefEuro).Distinct().ToList();
+
+        foreach (var item in result)
+        {
+            Console.WriteLine(item);
+        }
+
+    }
     void PrintStores(string ref2)
     {
         var countCrossref = (from o in context.StoreStockeds
@@ -95,16 +111,18 @@ using (var context = new testContext())
         if (countCrossref > 0)
         {
             Console.WriteLine();
-            foreach (var x in context.StoreStockeds.Where(u => u.RefEuro == ref2))
+            Console.WriteLine("Store name" + " \t \t\t\t\t \t\t\t\t \t\t\t" +  "Price" + " \t " + "Date stocked" + " \t\t " + "Date update");
+            foreach (var x in context.StoreStockeds.Where(u => u.RefEuro == ref2).OrderBy(x => x.Storeprice).ToList())
              {
                 
-                 Console.WriteLine(x.StoreName + " - " + "{0:N2}", x.Storeprice +" - "+ x.DateStoked + " - " + x.DateUptade);
+                // Console.WriteLine(x.StoreName + " \t " + Math.Round(Convert.ToDecimal(x.Storeprice),2, MidpointRounding.AwayFromZero).ToString("F") + " \t "+ x.DateStoked + " \t " + x.DateUptade);
+                Console.WriteLine(x.StoreName + " \t " + Convert.ToDecimal(x.Storeprice).ToString("F") + " \t " + x.DateStoked + " \t " + x.DateUptade);
 
-               
 
-             }
 
-            
+            }
+
+
         }
         else
         {
@@ -159,7 +177,7 @@ using (var context = new testContext())
 
                    
 
-                    List<Store> list_sorted = task.Result.OrderBy(x=>x.price).ToList();
+                    List<Store> list_sorted = task.Result.OrderByDescending(x=>x.date_update).ToList();
 
                     // Console.WriteLine(task.Result);
                     foreach (var x in list_sorted.ToList())
