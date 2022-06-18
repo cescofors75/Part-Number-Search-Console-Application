@@ -9,14 +9,7 @@ using MySql.Data.MySqlClient;
 #pragma warning disable CS8600
 using (var context = new testContext())
 {
-    Console.ForegroundColor = ConsoleColor.White;
-    Console.BackgroundColor = ConsoleColor.DarkBlue;
-    Console.Clear();
-    Console.WriteLine();
-    Console.WriteLine("Comparative Price Version 2022");
-    Console.WriteLine();
-    Console.WriteLine("Options :"+"\n"+ "Press 'exit' to Quit and 'list' to print Euro4x4 parts stocked");
-    Console.WriteLine();
+    screen();
     bool exit = false;
     do
     {
@@ -60,6 +53,31 @@ using (var context = new testContext())
 
 
 
+
+    void screen()
+    {
+
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.BackgroundColor = ConsoleColor.DarkBlue;
+        Console.Clear();
+        Console.WriteLine();
+
+
+
+
+        Console.WriteLine("                            __ __       __ __                      __   ");
+        Console.WriteLine("  ___  __  ___________     / // / _  __/ // /    ____  ____ ______/ /______");
+        Console.WriteLine(" / _ \\/ / / / ___/ __ \\   / // /_| |/_/ // /_   / __ \\/ __ `/ ___/ __/ ___/");
+        Console.WriteLine("/  __/ /_/ / /  / /_/ /  /__  __/>  </__  __/  / /_/ / /_/ / /  / /_(__  )");
+        Console.WriteLine("\\___/\\__,_/_/   \\____/     /_/ /_/|_|  /_/    / .___/\\__,_/_/   \\__/____/");
+        Console.WriteLine("                                             /_/ ");
+
+
+        Console.WriteLine("Comparative Price Version 2022");
+        Console.WriteLine();
+        Console.WriteLine("Options :" + "\n" + "Press 'exit' to Quit and 'list' to print Euro4x4 parts stocked");
+        Console.WriteLine();
+    }
     void Searchreference(string reference)
     {
 
