@@ -21,7 +21,19 @@ using (var context = new testContext())
         if (reference == "list") {
             Console.WriteLine("List Euro4x4 part number stocked: ");
             PrintRefStocked();
+            
         }
+
+        if (reference == "ean")
+        {
+            Console.WriteLine("List EAN from Euro4x4 part number: ");
+            
+            PrintRefEuroEan();
+            
+        }
+        if (reference == "exit") exit = true; 
+
+
 
         Searchreference(reference);
 
@@ -46,7 +58,7 @@ using (var context = new testContext())
         Console.ForegroundColor = ConsoleColor.White;
         Console.BackgroundColor = ConsoleColor.DarkBlue;
 
-     if(reference == "exit") exit = true;
+     
 
 
     } while (!exit);
@@ -75,12 +87,12 @@ using (var context = new testContext())
 
         Console.WriteLine("Comparative Price Version 2022");
         Console.WriteLine();
-        Console.WriteLine("Options :" + "\n" + "Press 'exit' to Quit and 'list' to print Euro4x4 parts stocked");
+        Console.WriteLine("Options :" + "\n" + "Enter 'list' to print Euro4x4 parts stocked" + "\n" + "Enter 'ean' to print list EAN from Euro4x4parts parts\nPress 'exit' to Quit and ");
         Console.WriteLine();
     }
     void Searchreference(string reference)
     {
-
+       Console.OutputEncoding=System.Text.Encoding.UTF8;
         var countReference = (from o in context.Europroducts
                               where o.Reference == reference
                               select o).Count();
@@ -89,7 +101,7 @@ using (var context = new testContext())
         {
 
             var referenceEncontrada = context.Europroducts.FirstOrDefault(u => u.Reference == reference);
-            Console.WriteLine(referenceEncontrada.Reference+ "-"+ referenceEncontrada.LibelleProduit+"-"+ referenceEncontrada.PrixEuroHt);
+            Console.WriteLine(referenceEncontrada.Reference+ "-"+ referenceEncontrada.LibelleProduit+"-"+ Convert.ToDecimal(referenceEncontrada.PrixEuroHt).ToString("F")+"€");
             Console.WriteLine();
 
 
@@ -108,12 +120,29 @@ using (var context = new testContext())
         
 
     }
+
+    void PrintRefEuroEan()
+    {
+
+        Console.Write("Enter Euro4x4 part number: ");
+        string reference = Console.ReadLine();
+        Console.Clear();
+        Console.WriteLine();
+
+        var result =  context.EurocrossrefEans.Where(o => o.RefEuro == reference)
+                      .Select(o => new { o.RefEuro, o.Eancode }).ToList().Distinct(); 
+        foreach (var item in result)
+        {
+            Console.WriteLine("RefEuro "+item.RefEuro+" EAN "+item.Eancode);
+        }
+
+    }
     void PrintRefStocked()
     {
 
        var result = context.StoreStockeds.Select(m => m.RefEuro).Distinct().ToList();
 
-        foreach (var item in result)
+        foreach (var item in result.OrderBy(x=>x))
         {
             Console.WriteLine(item);
         }
@@ -129,6 +158,10 @@ using (var context = new testContext())
         if (countCrossref > 0)
         {
             Console.WriteLine();
+           /* var referenceEncontrada = context.Europroducts.FirstOrDefault(u => u.Reference == ref2);
+            Console.WriteLine(referenceEncontrada.Reference + "-" + referenceEncontrada.LibelleProduit + "-" + referenceEncontrada.PrixEuroHt);
+            Console.WriteLine();*/
+
             Console.WriteLine("Store name" + " \t \t\t\t\t \t\t\t\t \t\t\t" +  "Price" + " \t " + "Date stocked" + " \t\t " + "Date update");
             foreach (var x in context.StoreStockeds.Where(u => u.RefEuro == ref2).OrderBy(x => x.Storeprice).ToList())
              {

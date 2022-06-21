@@ -18,10 +18,9 @@ namespace ConsoleApp3.Models
 
         public virtual DbSet<ArticleEan> ArticleEans { get; set; } = null!;
         public virtual DbSet<Eurocrossref2> Eurocrossref2s { get; set; } = null!;
+        public virtual DbSet<EurocrossrefEan> EurocrossrefEans { get; set; } = null!;
         public virtual DbSet<Europroduct> Europroducts { get; set; } = null!;
-        public virtual DbSet<Oemnumbers10m> Oemnumbers10ms { get; set; } = null!;
-        public virtual DbSet<OemnumbersSplit> OemnumbersSplits { get; set; } = null!;
-        public virtual DbSet<OemnumbersView> OemnumbersViews { get; set; } = null!;
+       
         public virtual DbSet<StoreStocked> StoreStockeds { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -29,7 +28,7 @@ namespace ConsoleApp3.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=DESKTOP-DAEKPLU\\DB_TEST; Database=test; User=sa; Password=Numa7612");
+                optionsBuilder.UseSqlServer("Server=EUROLAB02-DELL\\DB_TEST; Database=test; User=sa; Password=Numa7612");
             }
         }
 
@@ -57,6 +56,37 @@ namespace ConsoleApp3.Models
                 entity.Property(e => e.Reference).HasMaxLength(50);
             });
 
+            modelBuilder.Entity<EurocrossrefEan>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("eurocrossref_ean");
+
+                entity.Property(e => e.ArticleNumber).HasColumnName("articleNumber");
+
+                entity.Property(e => e.AssemblyGroupNodeId).HasColumnName("assemblyGroupNodeId");
+
+                entity.Property(e => e.Eancode).HasColumnName("eancode");
+
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.Lang).HasColumnName("lang");
+
+                entity.Property(e => e.LegacyArticleId).HasColumnName("legacyArticleId");
+
+                entity.Property(e => e.LegacyArticleId2).HasColumnName("legacyArticleId2");
+
+                entity.Property(e => e.MfrId).HasColumnName("mfrId");
+
+                entity.Property(e => e.RefEuro).HasColumnName("REF_EURO");
+
+                entity.Property(e => e.RefFrn).HasColumnName("REF_FRN");
+
+                entity.Property(e => e.ReferenceTypeDescription).HasColumnName("referenceTypeDescription");
+
+                entity.Property(e => e.ReferenceTypeKey).HasColumnName("referenceTypeKey");
+            });
+
             modelBuilder.Entity<Europroduct>(entity =>
             {
                 entity.HasNoKey();
@@ -72,88 +102,8 @@ namespace ConsoleApp3.Models
                 entity.Property(e => e.Reference).HasMaxLength(50);
             });
 
-            modelBuilder.Entity<Oemnumbers10m>(entity =>
-            {
-                entity.HasNoKey();
+           
 
-                entity.ToTable("oemnumbers_10M");
-
-                entity.Property(e => e.ArticleNumber)
-                    .HasMaxLength(50)
-                    .IsUnicode(false)
-                    .HasColumnName("articleNumber");
-
-                entity.Property(e => e.AssemblyGroupNodeId).HasColumnName("assemblyGroupNodeId");
-
-                entity.Property(e => e.Lang)
-                    .HasMaxLength(50)
-                    .IsUnicode(false)
-                    .HasColumnName("lang");
-
-                entity.Property(e => e.LegacyArticleId).HasColumnName("legacyArticleId");
-
-                entity.Property(e => e.MfrId).HasColumnName("mfrId");
-
-                entity.Property(e => e.ReferenceTypeDescription)
-                    .HasColumnType("text")
-                    .HasColumnName("referenceTypeDescription");
-
-                entity.Property(e => e.ReferenceTypeKey)
-                    .HasColumnType("text")
-                    .HasColumnName("referenceTypeKey");
-            });
-
-            modelBuilder.Entity<OemnumbersSplit>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.ToTable("oemnumbers_SPLIT");
-
-                entity.Property(e => e.ArticleNumber).HasColumnName("articleNumber");
-
-                entity.Property(e => e.AssemblyGroupNodeId).HasColumnName("assemblyGroupNodeId");
-
-                entity.Property(e => e.Lang).HasColumnName("lang");
-
-                entity.Property(e => e.LegacyArticleId).HasColumnName("legacyArticleId");
-
-                entity.Property(e => e.MfrId).HasColumnName("mfrId");
-
-                entity.Property(e => e.ReferenceTypeDescription)
-                    .HasColumnType("text")
-                    .HasColumnName("referenceTypeDescription");
-
-                entity.Property(e => e.ReferenceTypeKey)
-                    .HasColumnType("text")
-                    .HasColumnName("referenceTypeKey");
-            });
-
-            modelBuilder.Entity<OemnumbersView>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.ToView("oemnumbersView");
-
-                entity.Property(e => e.ArticleNumber).HasColumnName("articleNumber");
-
-                entity.Property(e => e.AssemblygroupNodeId).HasColumnName("assemblygroupNodeId");
-
-                entity.Property(e => e.Lang)
-                    .HasMaxLength(50)
-                    .HasColumnName("lang");
-
-                entity.Property(e => e.LegacyArticleId).HasColumnName("legacyArticleId");
-
-                entity.Property(e => e.MfrId).HasColumnName("mfrId");
-
-                entity.Property(e => e.Oemnumber)
-                    .HasMaxLength(50)
-                    .HasColumnName("oemnumber");
-
-                entity.Property(e => e.ReferenceTypeKey)
-                    .HasMaxLength(50)
-                    .HasColumnName("referenceTypeKey");
-            });
 
             modelBuilder.Entity<StoreStocked>(entity =>
             {
