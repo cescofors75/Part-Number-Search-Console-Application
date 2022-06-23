@@ -20,7 +20,7 @@ using ConsoleApp3.Models;
         Console.WriteLine();
 
         if (reference == "list") {
-            Console.WriteLine("List Euro4x4 part number stocked: ");
+            Console.WriteLine("List Euro4x4 part number stocked:");
             metodo.PrintRefStocked();
             
         }
