@@ -9,7 +9,16 @@ using MySql.Data.MySqlClient;
 #pragma warning disable CS8600
 using (var context = new testContext())
 {
-    screen();
+    var metodo = new metodo();
+    
+    metodo.print_all_stores();
+    Console.ReadLine();
+
+    metodo.screen();
+    
+    
+    
+    
     bool exit = false;
     do
     {
@@ -35,7 +44,7 @@ using (var context = new testContext())
 
 
 
-        Searchreference(reference);
+        metodo.Searchreference(reference);
 
         if (ReferenceStocked(reference))
         {
@@ -66,53 +75,8 @@ using (var context = new testContext())
 
 
 
-    void screen()
-    {
-
-        Console.ForegroundColor = ConsoleColor.White;
-        Console.BackgroundColor = ConsoleColor.DarkBlue;
-        Console.Clear();
-        Console.WriteLine();
-
-
-
-
-        Console.WriteLine("                            __ __       __ __                      __   ");
-        Console.WriteLine("  ___  __  ___________     / // / _  __/ // /    ____  ____ ______/ /______");
-        Console.WriteLine(" / _ \\/ / / / ___/ __ \\   / // /_| |/_/ // /_   / __ \\/ __ `/ ___/ __/ ___/");
-        Console.WriteLine("/  __/ /_/ / /  / /_/ /  /__  __/>  </__  __/  / /_/ / /_/ / /  / /_(__  )");
-        Console.WriteLine("\\___/\\__,_/_/   \\____/     /_/ /_/|_|  /_/    / .___/\\__,_/_/   \\__/____/");
-        Console.WriteLine("                                             /_/ ");
-
-
-        Console.WriteLine("Comparative Price Version 2022");
-        Console.WriteLine();
-        Console.WriteLine("Options :" + "\n" + "Enter 'list' to print Euro4x4 parts stocked" + "\n" + "Enter 'ean' to print list EAN from Euro4x4parts parts\nPress 'exit' to Quit and ");
-        Console.WriteLine();
-    }
-    void Searchreference(string reference)
-    {
-       Console.OutputEncoding=System.Text.Encoding.UTF8;
-        var countReference = (from o in context.Europroducts
-                              where o.Reference == reference
-                              select o).Count();
-
-        if (countReference > 0)
-        {
-
-            var referenceEncontrada = context.Europroducts.FirstOrDefault(u => u.Reference == reference);
-            Console.WriteLine(referenceEncontrada.Reference+ "-"+ referenceEncontrada.LibelleProduit+"-"+ Convert.ToDecimal(referenceEncontrada.PrixEuroHt).ToString("F")+"€");
-            Console.WriteLine();
-
-
-        }
-        else
-        {
-
-            Console.WriteLine("Ref not found VIA SQLSERVER EF");
-            Console.WriteLine();
-        }
-    }
+    
+    
     bool ReferenceStocked(string ref2)
     {
         var countCrossref = (from o in context.StoreStockeds where o.RefEuro == ref2 select o).Count();
@@ -235,7 +199,7 @@ using (var context = new testContext())
                     {
 
                         Console.WriteLine("New store  "+x.name + "-" + x.country + "-" + x.price);
-                        saveData(x,reference.refe);   
+                        metodo.saveData(x,reference.refe);   
                     }
 
 
@@ -352,27 +316,10 @@ using (var context = new testContext())
         return stocked;
 
     }
-    void saveData(Store storeSave, String reference)
-{
-        String price_solved = storeSave.price.Replace('.', ',');
+   
 
 
-    var t = new StoreStocked
-    {
-        
-        StoreName = storeSave.name,
-        StoreCountry = storeSave.country,
-        Storeprice= Convert.ToDouble(price_solved),
-        DateStoked = DateTime.Now,
-        DateUptade = Convert.ToDateTime(storeSave.date_update),
-        RefEuro=reference
-    };
-    context.StoreStockeds.Add(t);
-    context.SaveChanges();
-        Console.WriteLine("Data store stocked sqlserver.");
-
-
-    }
+// new function  print all the stores
 
 }
 
