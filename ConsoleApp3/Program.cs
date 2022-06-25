@@ -112,8 +112,9 @@ using (var context = new testContext())
     {
 
        var result = context.StoreStockeds.Select(m => m.RefEuro).Distinct().ToList();
+       
 
-        foreach (var item in result)
+        foreach (var item in result.OrderBy(x => x))
         {
             Console.WriteLine(item);
         }
@@ -190,12 +191,14 @@ using (var context = new testContext())
                     reference.legacy = reader.GetString(3);
                     reference.ean = reader.GetString(4);
 
+                    //Console.WriteLine("Reference: " + reference.refe + " Description: " + reference.description + " Price: " + reference.price);
+
                     Task<List<Store>> task = searchStores(reference.ean, f1);
                     task.Wait();
 
                    
 
-                    List<Store> list_sorted = task.Result.OrderByDescending(x=>x.date_update).ToList();
+                    List<Store> list_sorted = task.Result.OrderByDescending(x=>x.price).ToList();
 
                     // Console.WriteLine(task.Result);
                     foreach (var x in list_sorted.ToList())
