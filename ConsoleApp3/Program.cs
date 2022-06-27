@@ -1,5 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+using ConsoleApp.Models;
 using ConsoleApp3.Models;
 
 #pragma warning disable CS8604
@@ -8,9 +9,9 @@ using ConsoleApp3.Models;
 
     var context = new testContext();
     var metodo = new metodo();
-   
+    var screen = new Screen();
 
-    metodo.screen();
+    screen.init();
     bool exit = false;
     do
     {
