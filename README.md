@@ -1,32 +1,50 @@
-Part Number Search Console Application
-This repository contains a console application for searching and managing part numbers. Users can interactively search for part numbers, view related EANs, and check whether a part number is stocked.
 
-Features
-Interactive Interface: Users are prompted to enter a part number, and the application responds with relevant information.
-List Stocked Part Numbers: By entering the command list, users can view a list of all part numbers currently stocked.
-View EANs: By entering the command ean, users can view a list of EANs associated with part numbers.
-Exit Command: Users can exit the application by entering the command exit.
-Colored Output: The application uses different colors to distinguish between part numbers that are stocked and those that are new.
-Installation & Setup
-Clone the repository:
+# Part Number Search Console Application
 
-bash
-Copy code
-git clone [repository-link]
-Ensure that you have the required dependencies, such as the necessary database context and models.
+## Overview
 
-Compile and run the application.
+This console application is designed for part number management and lookup. Users can interactively input a part number to retrieve related details, view associated EANs, and determine stock status.
 
-Usage
-Launch the compiled console application.
-Follow the on-screen prompts to enter a part number or use one of the available commands.
-View the results displayed on the console.
-Dependencies
-Entity Framework: For database interactions (if used).
-Custom Models: The application relies on custom models for data representation.
-Contributing
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+## Features
 
-License
-MIT
+- **Interactive Search**: Allows users to interactively input a part number and fetch relevant details.
+- **List Stocked Part Numbers**: By entering the `list` command, users can view all stocked part numbers.
+- **View EANs**: The `ean` command lets users view EANs associated with the part numbers.
+- **Quick Exit**: Users can terminate the application by entering the `exit` command.
+- **Color-Coded Display**: Differentiates between stocked and new part numbers using color.
+
+## Getting Started
+
+### Prerequisites
+
+Ensure the required database context and models are set up and properly configured.
+
+### Installation
+
+1. Clone the repository:
+    ```bash
+    git clone [repository-url]
+    ```
+
+2. Navigate to the project directory:
+    ```bash
+    cd [directory-name]
+    ```
+
+3. Compile and execute the application.
+
+## How to Use
+
+1. Run the console application.
+2. Follow the on-screen instructions. Enter a part number or one of the predefined commands.
+3. View the displayed results based on your input.
+
+## Dependencies
+
+- **Entity Framework**: Necessary for database operations (if used).
+- **Custom Models**: Used for data representation.
+
+## Contributing
+
+Contributions are welcome! Please fork the repository and create a pull request with your changes.
 
